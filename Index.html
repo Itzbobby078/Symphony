@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Symphony — Discord Music Bot</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #090910;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(9, 9, 16, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #242431;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff9fcf;
+        }
+
+        nav a {
+            color: #bdbdc9;
+            text-decoration: none;
+            margin-left: 22px;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            color: #ff9fcf;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background:
+                radial-gradient(circle at top, #211421 0%, #090910 45%);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid #40303d;
+            border-radius: 30px;
+            color: #ff9fcf;
+            background: #15111a;
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 9vw, 82px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #ff9fcf;
+        }
+
+        .hero p {
+            color: #aaaab8;
+            max-width: 650px;
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 23px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            background: #ff9fcf;
+            color: #15151c;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .button.secondary {
+            background: #171720;
+            color: #ffffff;
+            border: 1px solid #30303d;
+        }
+
+        /* GENERAL SECTIONS */
+
+        section {
+            padding: 90px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #92929f;
+        }
+
+        /* FEATURES */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #12121a;
+            border: 1px solid #292936;
+            border-radius: 16px;
+            padding: 28px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #ff9fcf;
+        }
+
+        .card-icon {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #ff9fcf;
+            margin-bottom: 9px;
+        }
+
+        .card p {
+            color: #9d9daa;
+        }
+
+        /* COMMANDS */
+
+        .commands {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .command {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 20px;
+            margin-bottom: 10px;
+            background: #12121a;
+            border: 1px solid #292936;
+            border-radius: 10px;
+        }
+
+        .command code {
+            color: #ff9fcf;
+        }
+
+        .command span {
+            color: #9999a6;
+            text-align: right;
+        }
+
+        /* ABOUT */
+
+        .about-box {
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
+            background: #12121a;
+            border: 1px solid #292936;
+            border-radius: 18px;
+            padding: 40px;
+        }
+
+        .about-box p {
+            color: #a6a6b2;
+            margin-bottom: 15px;
+        }
+
+        /* UPDATES */
+
+        .updates {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .update {
+            padding: 25px;
+            margin-bottom: 15px;
+            background: #12121a;
+            border-left: 3px solid #ff9fcf;
+            border-radius: 10px;
+        }
+
+        .update h3 {
+            margin-bottom: 5px;
+        }
+
+        .update small {
+            color: #ff9fcf;
+        }
+
+        .update p {
+            color: #9d9daa;
+            margin-top: 8px;
+        }
+
+        /* HELP */
+
+        .help {
+            text-align: center;
+            background: #0d0d15;
+        }
+
+        .help p {
+            color: #9999a6;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 35px 20px;
+            text-align: center;
+            color: #777784;
+            border-top: 1px solid #242432;
+        }
+
+        footer span {
+            color: #ff9fcf;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            nav a {
+                margin: 0 7px;
+                font-size: 14px;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+
+            section {
+                padding: 70px 5%;
+            }
+
+            .command {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .command span {
+                text-align: left;
+            }
+
+            .about-box {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav>
+        <div class="logo">
+            Symphony<span>.</span>
+        </div>
+
+        <div>
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#commands">Commands</a>
+            <a href="#about">About</a>
+            <a href="#help">Help</a>
+        </div>
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero" id="home">
+
+        <div class="badge">
+            🎧 Discord Music Bot
+        </div>
+
+        <h1>
+            Meet <span>Symphony</span>
+        </h1>
+
+        <p>
+            Music made simple.
+            Bring your favorite music to your Discord server
+            with a clean, fast and music-focused experience.
+        </p>
+
+            <div class="buttons">
+               <a class="button" href="https://discord.com/oauth2/authorize?client_id=1555618453296119961&permissions=36817920&integration_type=0&scope=bot+applications.commands">
+                   Invite Symphony
+                 </a>
+
+                   <a class="button" href="#commands">
+        View Commands
+    </a>
+</div>	
+    <!-- FEATURES -->
+
+    <section id="features">
+
+        <div class="section-title">
+            <h2>Built for Music</h2>
+            <p>Everything Symphony is made to do.</p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">🎵</div>
+                <h3>Music</h3>
+                <p>
+                    Enjoy music with your Discord community
+                    without unnecessary clutter.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Fast</h3>
+                <p>
+                    Simple commands designed for a smooth
+                    and responsive experience.
+                </p>
+            </div>
+
+="            <div class="card">
+="                <div class="card-<icon">🎧</div>
+                <h3>Queue</h3>
+                <p>
+                    Keep your music organized and let the
+                    queue handle the next tracks.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">✨</div>
+                <h3>Simple</h3>
+                <p>
+                    A music-first bot focused on making
+                    Discord music easier.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMMANDS -->
+
+    <section id="commands">
+
+    <div class="section-title">
+        <h2>Commands</h2>
+        <p>Symphony's music commands.</p>
+    </div>
+
+    <div class="commands">
+
+        <div class="command">
+            <code>!play</code>
+            <span>Play a song</span>
+        </div>
+
+        <div class="command">
+            <code>!join</code>
+            <span>Join your voice channel</span>
+        </div>
+
+        <div class="command">
+            <code>!leave</code>
+            <span>Leave the voice channel</span>
+        </div>
+
+        <div class="command">
+            <code>!disconnect</code>
+            <span>Disconnect Symphony</span>
+        </div>
+
+        <div class="command">
+            <code>!pause</code>
+            <span>Pause the current track</span>
+        </div>
+
+        <div class="command">
+            <code>!resume</code>
+            <span>Resume playback</span>
+        </div>
+
+        <div class="command">
+            <code>!skip</code>
+            <span>Skip the current track</span>
+        </div>
+
+        <div class="command">
+            <code>!stop</code>
+            <span>Stop playback</span>
+        </div>
+
+        <div class="command">
+            <code>!replay</code>
+            <span>Replay the current track</span>
+        </div>
+
+        <div class="command">
+            <code>!previous</code>
+            <span>Play the previous track</span>
+        </div>
+
+        <div class="command">
+            <code>!nowplaying</code>
+            <span>Show the currently playing track</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ABOUT SYMPHONY -->
+
+<section id="about">
+
+    <div class="section-title">
+        <h2>About Symphony</h2>
+        <p>A music bot built with simplicity in mind.</p>
+    </div>
+
+    <div class="about-content">
+
+        <h3>♡ What is Symphony?</h3>
+        <p>
+            Symphony is a Discord music bot created by Bobby,
+            designed to give Discord communities a simple,
+            smooth, and enjoyable way to listen to music together.
+        </p>
+
+        <h3>୨୧ What can Symphony do?</h3>
+        <p>
+            Symphony provides music playback and voice-channel
+            controls through simple prefix commands. You can play
+            music, pause and resume playback, skip tracks, replay
+            songs, play the previous track, check what's currently
+            playing, and manage Symphony's voice connection.
+        </p>
+
+        <h3>✦ Music Controls</h3>
+        <p>
+            Symphony includes commands for playing music, joining
+            and leaving voice channels, pausing and resuming tracks,
+            skipping songs, stopping playback, replaying tracks,
+            returning to the previous track, and viewing the
+            currently playing song.
+        </p>
+
+        <h3>⌇ Simple Commands</h3>
+        <p>
+            Symphony uses the <code>!</code> prefix to keep its
+            commands simple and easy to remember. The current
+            command system includes play, join, leave, disconnect,
+            pause, resume, skip, stop, replay, previous, and
+            now playing.
+        </p>
+
+        <h3>♡ Built by Bobby</h3>
+        <p>
+            Symphony is part of Bobby's journey into software
+            development. It is a personal project built to learn,
+            experiment, improve coding skills, and turn ideas into
+            something real.
+        </p>
+
+        <h3>୨୧ The Vision</h3>
+        <p>
+            Symphony is designed to stay focused on music instead
+            of becoming overloaded with unrelated features. The
+            goal is to keep the experience clean, straightforward,
+            and easy to use.
+        </p>
+
+        <h3>✦ What's Next?</h3>
+        <p>
+            Symphony will continue to receive improvements,
+            bug fixes, performance updates, and new music features
+            as development continues.
+        </p>
+
+        <p>
+            <strong>Symphony.gg</strong> is the official home of
+            the project, where users can explore Symphony, view
+            commands, follow updates, and get help.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- UPDATES -->
+
+<section id="updates">
+
+    <div class="section-title">
+        <h2>Updates</h2>
+        <p>What's happening with Symphony.</p>
+    </div>
+
+    <div class="updates">
+
+        <div class="update">
+            <h3>♡ Symphony V1.0</h3>
+            <span>Initial Release</span>
+            <p>
+                Symphony V1.0 introduces the foundation of the
+                project with music playback, voice-channel controls,
+                and a simple prefix-command system.
+            </p>
+        </div>
+
+        <div class="update">
+            <h3>✦ Symphony.gg</h3>
+            <span>Website</span>
+            <p>
+                The official Symphony website is being built to
+                provide commands, project information, updates,
+                help, and everything related to Symphony in one place.
+            </p>
+        </div>
+
+        <div class="update">
+            <h3>୨୧ Command Expansion</h3>
+            <span>Current Development</span>
+            <p>
+                Symphony's command section now covers playback,
+                voice controls, track navigation, replay, and
+                now-playing information.
+            </p>
+        </div>
+
+        <div class="update">
+            <h3>⌇ More Improvements</h3>
+            <span>Coming Later</span>
+            <p>
+                Development will continue with improvements,
+                fixes, performance updates, and new ideas as
+                Symphony grows.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- HELP -->
+
+    <section class="help" id="help">
+
+        <div class="section-title">
+            <h2>Need Help?</h2>
+            <p>
+                Find answers, learn about Symphony,
+                or get support.
+            </p>
+        </div>
+
+        <div class="buttons">
+
+            <a class="button" href="#">
+                Get Help
+            </a>
+
+            <a class="button secondary" href="#">
+                Discord
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+        © 2026 <span>Symphony</span> · Built with 🎵 by Bobby.
+    </footer>
+
+</body>
+</html>
